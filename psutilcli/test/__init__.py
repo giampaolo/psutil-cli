@@ -37,3 +37,8 @@ def sh(cmdline, stdout=subprocess.PIPE, stderr=subprocess.PIPE):
         stdout = str(stdout, sys.stdout.encoding or
                      sys.getfilesystemencoding())
     return stdout.strip()
+
+
+def runscript(cmdline):
+    cmdline = SCRIPTS_DIR + "/" + cmdline
+    return sh(sys.executable + ' ' + cmdline).strip()
