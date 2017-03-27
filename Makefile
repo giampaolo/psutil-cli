@@ -3,6 +3,7 @@
 # You can set the variables below from the command line.
 
 PYTHON = python
+TSCRIPT = psutilcli/test/runner.py
 ARGS =
 
 # List of nice-to-have dev libs.
@@ -82,6 +83,15 @@ install-pip:
 		code = os.system('%s %s --user' % (sys.executable, f.name)); \
 		f.close(); \
 		sys.exit(code);"
+
+# ===================================================================
+# Tests
+# ===================================================================
+
+# Run all tests.
+test: install
+	$(PYTHON) $(TSCRIPT)
+
 # ===================================================================
 # Linters
 # ===================================================================
