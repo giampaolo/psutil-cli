@@ -5,21 +5,9 @@ import functools
 COLORS_DISABLED = False
 
 
-def bytes2human(n):
-    # http://code.activestate.com/recipes/578019
-    # >>> bytes2human(10000)
-    # '9.8K'
-    # >>> bytes2human(100001221)
-    # '95.4M'
-    symbols = ('K', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y')
-    prefix = {}
-    for i, s in enumerate(symbols):
-        prefix[s] = 1 << (i + 1) * 10
-    for s in reversed(symbols):
-        if n >= prefix[s]:
-            value = float(n) / prefix[s]
-            return '%.1f%s' % (value, s)
-    return "%sB" % n
+# ===================================================================
+# --- python
+# ===================================================================
 
 
 def memoize(fun):
@@ -54,8 +42,14 @@ def memoize(fun):
     return wrapper
 
 
+# ===================================================================
+# --- terminal / gui
+# ===================================================================
+
+
 @memoize
 def term_supports_colors(file=sys.stdout):
+    """Whether this terminal supports colors."""
     try:
         import curses
         assert file.isatty()
@@ -97,5 +91,41 @@ def colorstr(s, color=None, bold=False):
 
 
 def disable_colors():
+    """Disable colorstr() function colorized output."""
     global COLORS_DISABLED
     COLORS_DISABLED = True
+
+
+def get_percent_grid(perc, length=40):
+    dashes = "|" * int((float(perc) / 10 * (length / 10)))
+    tot_dashes = len(dashes)
+    empty_dashes = " " * (length - tot_dashes)
+    dashes = colorstr(
+        dashes, "green" if perc <= 50 else "yellow" if perc < 90 else "red")
+    perc = colorstr(
+        str(perc) + "%",
+        "green" if perc <= 50 else "yellow" if perc < 90 else "red")
+    return "%s%s%s%-9s %14s" % (
+        colorstr("[", bold=True),
+        dashes,
+        empty_dashes,
+        colorstr("]", bold=True),
+        perc
+    )
+
+
+def bytes2human(n):
+    # http://code.activestate.com/recipes/578019
+    # >>> bytes2human(10000)
+    # '9.8K'
+    # >>> bytes2human(100001221)
+    # '95.4M'
+    symbols = ('K', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y')
+    prefix = {}
+    for i, s in enumerate(symbols):
+        prefix[s] = 1 << (i + 1) * 10
+    for s in reversed(symbols):
+        if n >= prefix[s]:
+            value = float(n) / prefix[s]
+            return '%.1f%s' % (value, s)
+    return "%sB" % n
