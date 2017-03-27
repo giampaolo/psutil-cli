@@ -10,23 +10,21 @@ if [[ "$(uname -s)" == 'Darwin' ]]; then
     if which pyenv > /dev/null; then
         eval "$(pyenv init -)"
     fi
-    pyenv activate psutil
+    pyenv activate psutilcli
 fi
 
-# install psutil
+# install psutilcli
 python setup.py build
 python setup.py develop
 
 # run tests (with coverage)
 if [[ "$(uname -s)" != 'Darwin' ]]; then
-    coverage run psutil/tests/runner.py --include="psutil/*" --omit="test/*,*setup*"
+    coverage run psutil-cli/test/runner.py --include="psutil-cli/*" --omit="test/*,*setup*"
 else
-    python psutil/tests/runner.py
+    python psutil-cli/tests/runner.py
 fi
 
 if [ "$PYVER" == "2.7" ] || [ "$PYVER" == "3.5" ]; then
-    # run mem leaks test
-    python psutil/tests/test_memory_leaks.py
     # run linter (on Linux only)
     if [[ "$(uname -s)" != 'Darwin' ]]; then
         python -m flake8

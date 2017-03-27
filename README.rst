@@ -1,3 +1,23 @@
+.. image:: https://img.shields.io/travis/giampaolo/psutil-cli/master.svg?maxAge=3600&label=Linux%20/%20OSX
+    :target: https://travis-ci.org/giampaolo/psutil-cli
+    :alt: Linux tests (Travis)
+
+.. image:: https://coveralls.io/repos/github/giampaolo/psutil-cli/badge.svg?branch=master
+    :target: https://coveralls.io/github/giampaolo/psutil-cli?branch=master
+    :alt: Test coverage (coverall.io)
+
+.. image:: https://img.shields.io/pypi/v/psutil-cli.svg?label=pypi
+    :target: https://pypi.python.org/pypi/psutil/
+    :alt: Latest version
+
+.. image:: https://img.shields.io/github/stars/giampaolo/psutil-cli.svg
+    :target: https://github.com/giampaolo/psutil/
+    :alt: Github stars
+
+.. image:: https://img.shields.io/pypi/l/psutil-cli.svg
+    :target: https://pypi.python.org/pypi/psutil/
+    :alt: License
+
 Cross-platform command line utilities based on
 `psutil <https://github.com/giampaolo/psutil/>`__.
 
