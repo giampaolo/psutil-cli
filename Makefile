@@ -106,3 +106,11 @@ pyflakes:
 flake8:
 	@git ls-files | grep \\.py$ | xargs $(PYTHON) -m flake8
 
+# ===================================================================
+# GIT
+# ===================================================================
+
+# Install GIT pre-commit hook.
+install-git-hooks:
+	ln -sf ../../.git-pre-commit .git/hooks/pre-commit
+	chmod +x .git/hooks/pre-commit
