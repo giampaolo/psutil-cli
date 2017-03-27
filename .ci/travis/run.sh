@@ -19,7 +19,7 @@ python setup.py develop
 
 # run tests (with coverage)
 if [[ "$(uname -s)" != 'Darwin' ]]; then
-    coverage run psutil-cli/test/runner.py --include="psutil-cli/*" --omit="test/*,*setup*"
+    coverage run psutilcli/test/runner.py --include="psutil-cli/*" --omit="test/*,*setup*"
 else
     python psutil-cli/tests/runner.py
 fi

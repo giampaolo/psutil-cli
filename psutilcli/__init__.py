@@ -2,6 +2,9 @@ import sys
 import functools
 
 
+COLORS_DISABLED = False
+
+
 def bytes2human(n):
     # http://code.activestate.com/recipes/578019
     # >>> bytes2human(10000)
@@ -67,7 +70,7 @@ def term_supports_colors(file=sys.stdout):
 def colorstr(s, color=None, bold=False):
     """Return a coloured version of 'string'."""
     # http://misc.flogisoft.com/bash/tip_colors_and_formatting
-    if not term_supports_colors():
+    if COLORS_DISABLED or not term_supports_colors():
         return s
 
     attr = []
@@ -91,3 +94,8 @@ def colorstr(s, color=None, bold=False):
         attr.append('1')
 
     return '\x1b[%sm%s\x1b[0m' % (';'.join(attr), s)
+
+
+def disable_colors():
+    global COLORS_DISABLED
+    COLORS_DISABLED = True

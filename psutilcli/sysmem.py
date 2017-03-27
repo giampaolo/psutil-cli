@@ -2,11 +2,12 @@
 
 """Shows system memory usage.
 
-Usage: ps-sysmem [-p] [-b]
+Usage: ps-sysmem [-p] [-b] [-N]
 
 -h --help          print help
 -p --parsable      output in a parsable format
 -b --bytes         express numbers in bytes
+-N --nocolors      turn off colors
 """
 
 from __future__ import print_function
@@ -16,6 +17,7 @@ import psutil
 
 from psutilcli import bytes2human
 from psutilcli import colorstr
+from psutilcli import disable_colors
 
 
 BYTES = False
@@ -26,9 +28,7 @@ def pprint_ntuple(nt):
         value = getattr(nt, name)
         if name != 'percent':
             value = bytes2human(value) if not BYTES else value
-        else:
-            value = "%s%%" % value
-        print('%-10s:\t%7s' % (name, value))
+            print('%-10s:\t%12s' % (name, value))
 
 
 def pprint_ntuple_parsable(nt, prefix):
@@ -46,24 +46,27 @@ def get_percent_grid(perc, length=40):
     tot_dashes = len(dashes)
     empty_dashes = " " * (length - tot_dashes)
     dashes = colorstr(
-        dashes, "green" if perc <= 50 else "yellow" if perc <= 75 else "red")
+        dashes, "green" if perc <= 50 else "yellow" if perc < 90 else "red")
     perc = colorstr(
         str(perc) + "%",
-        "green" if perc <= 50 else "yellow" if perc <= 75 else "red")
-    return "%s%s%s %14s%s" % (
+        "green" if perc <= 50 else "yellow" if perc < 90 else "red")
+    return "%s%s%s%-9s %14s" % (
         colorstr("[", bold=True),
         dashes,
         empty_dashes,
-        perc,
-        colorstr("]", bold=True))
+        colorstr("]", bold=True),
+        perc
+    )
 
 
 def main():
-    global BYTES
+    global BYTES, NOCOLORS
     args = docopt(__doc__)
     BYTES = args['--bytes']
     virtual = psutil.virtual_memory()
     swap = psutil.swap_memory()
+    if args['--nocolors']:
+        disable_colors()
 
     if args['--parsable']:
         pprint_ntuple_parsable(virtual, "virtual")
@@ -72,7 +75,7 @@ def main():
         print('%s   %s' % (
             colorstr("Virtual", bold=1),
             get_percent_grid(virtual.percent)))
-        print(colorstr('-' * 57, bold=1))
+        print(colorstr('-' * 58, bold=1))
         pprint_ntuple(virtual)
 
         print()
