@@ -38,7 +38,7 @@ def pprint_ntuple_parsable(nt, prefix):
         if name != 'percent':
             value = bytes2human(value) if not BYTES else value
         else:
-            value = "%s%%" % value
+            value = "%s" % value
         print('%s.%s: %s' % (prefix, name, value))
 
 
@@ -53,7 +53,7 @@ def main():
 
     if args['--parsable']:
         pprint_ntuple_parsable(virtual, "virtual")
-        pprint_ntuple_parsable(virtual, "swap")
+        pprint_ntuple_parsable(swap, "swap")
     else:
         print('%s   %s' % (
             colorstr("Virtual", bold=1),
