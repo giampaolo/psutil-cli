@@ -3,14 +3,17 @@ import os
 import sys
 import stat
 
+from psutil import LINUX
+from psutil import OSX
 from psutil import POSIX
+from psutil import WINDOWS
 
 from psutilcli.test import unittest
 from psutilcli.test import sh
 from psutilcli.test import SCRIPTS_DIR
 
 
-SCRIPTS = ["ps.py", "sysmem.py"]
+SCRIPTS = ["ps.py", "sysmem.py", "procsmem.py"]
 
 
 class TestScripts(unittest.TestCase):
@@ -58,3 +61,9 @@ class TestScripts(unittest.TestCase):
 
     def test_sysmem(self):
         self.assert_stdout('sysmem.py')
+
+    def test_procsmem(self):
+        if OSX or LINUX or WINDOWS:
+            self.assert_stdout('procsmem.py')
+        else:
+            self.assert_syntax('procsmem.py')

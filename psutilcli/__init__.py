@@ -1,3 +1,4 @@
+from __future__ import print_function
 import sys
 import functools
 
@@ -130,3 +131,22 @@ def bytes2human(n):
             value = float(n) / prefix[s]
             return '%.1f%s' % (value, s)
     return "%sB" % n
+
+
+def exit(msg, code=1):
+    """Exit this process with the given msg and exit code."""
+    if not msg.startswith('err: '):
+        msg = 'err: ' + msg
+    if term_supports_colors(file=sys.stderr):
+        msg = colorstr(msg, "red")
+    print(msg, file=sys.stderr)
+    sys.exit(code)
+
+
+def warn(msg):
+    """Print a warning msg to stderr."""
+    if not msg.startswith('warn: '):
+        msg = 'warn: ' + msg
+    if term_supports_colors(file=sys.stderr):
+        msg = colorstr(msg, "yellow")
+    print(msg, file=sys.stderr)

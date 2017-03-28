@@ -36,3 +36,9 @@ platforms and Windows and which all provide the same interface in terms of
 cmdline parsing and printed output.
 
 NOTE: still a work in progress.
+
+Utilities
+=========
+
+* `psutil-sysmem <https://github.com/giampaolo/psutil-cli/blob/master/psutilcli/sysmem.py>`__: system memory info.
+* `psutil-procsmem <https://github.com/giampaolo/psutil-cli/blob/master/psutilcli/procsmem.py>`__: shows "real" (USS) memory usage for all processes.
