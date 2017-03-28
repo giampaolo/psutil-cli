@@ -19,9 +19,9 @@ python setup.py develop
 
 # run tests (with coverage)
 if [[ "$(uname -s)" != 'Darwin' ]]; then
-    coverage run psutilcli/test/runner.py --include="psutil-cli/*" --omit="test/*,*setup*"
+    coverage run psutilcli/test/runner.py --include="psutilcli/*" --omit="test/*,*setup*"
 else
-    python psutil-cli/tests/runner.py
+    python psutilcli/test/runner.py
 fi
 
 if [ "$PYVER" == "2.7" ] || [ "$PYVER" == "3.5" ]; then

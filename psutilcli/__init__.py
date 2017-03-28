@@ -105,7 +105,8 @@ def get_percent_grid(perc, length=40):
     perc = colorstr(
         str(perc) + "%",
         "green" if perc <= 50 else "yellow" if perc < 90 else "red")
-    return "%s%s%s%-9s %14s" % (
+    templ = "%s%s%s%-9s %14s" if not COLORS_DISABLED else "%s%s%s%-1s %5s"
+    return templ % (
         colorstr("[", bold=True),
         dashes,
         empty_dashes,
