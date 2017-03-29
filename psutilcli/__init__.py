@@ -1,6 +1,8 @@
 from __future__ import print_function
-import sys
+
 import functools
+import os
+import sys
 
 
 COLORS_DISABLED = False
@@ -89,6 +91,17 @@ def colorstr(s, color=None, bold=False):
         attr.append('1')
 
     return '\x1b[%sm%s\x1b[0m' % (';'.join(attr), s)
+
+
+def color_cmdline(cmdline):
+    exe, _, tail = cmdline.partition(' ')
+    if os.path.exists(exe) and os.access(exe, os.X_OK):
+        dirname, basename = os.path.split(exe)
+        ret = "%s%s%s %s" % (dirname, os.sep, colorstr(basename, "green"),
+                             tail)
+    else:
+        ret = cmdline
+    return ret
 
 
 def disable_colors():

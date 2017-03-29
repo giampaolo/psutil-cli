@@ -23,6 +23,7 @@ from docopt import docopt
 import psutil
 
 from psutilcli import bytes2human
+from psutilcli import color_cmdline
 from psutilcli import exit
 from psutilcli import warn
 
@@ -56,8 +57,16 @@ def main():
                 procs.append(info)
 
     procs.sort(key=lambda p: p['mem'][sort])
-    templ = "%-7s %-7s %-30s %7s %7s %7s %7s"
-    print(templ % ("PID", "User", "Cmdline", "USS", "PSS", "Swap", "RSS"))
+    templ = "%-7s %7s %7s %7s %7s %7s %7s"
+    print(templ % (
+        "PID",
+        "User",
+        "USS",
+        "PSS",
+        "Swap",
+        "RSS",
+        "Cmdline",
+    ))
     print("=" * 78)
     for p in procs:
         uss = p["mem"]["uss"]
@@ -66,14 +75,20 @@ def main():
         pss = p["mem"].get("pss", None)
         swap = p["mem"].get("swap", None)
         rss = p["mem"].get("rss", None)
+
+        uss = bytes2human(uss)
+        pss = bytes2human(pss) if pss is not None else ""
+        swap = bytes2human(swap) if swap is not None else ""
+        rss = bytes2human(rss) if rss is not None else ""
+
         line = templ % (
             p["pid"],
             p["username"][:7],
-            " ".join(p["cmdline"])[:30],
-            bytes2human(uss),
-            bytes2human(pss) if pss is not None else "",
-            bytes2human(swap) if swap is not None else "",
-            bytes2human(rss) if rss is not None else "",
+            uss,
+            pss,
+            swap,
+            rss,
+            color_cmdline(" ".join(p["cmdline"])[:30]),
         )
         print(line)
     if ad_pids:
