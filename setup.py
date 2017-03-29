@@ -18,7 +18,7 @@ setup(
     url='https://github.com/giampaolo/psutil-cli',
     platforms='Platform Independent',
     license='BSD',
-    packages=['psutilcli', 'psutilcli.test'],
+    packages=['psutilcli', 'psutilcli.compat', 'psutilcli.test'],
     install_requires=['psutil', 'docopt'],
     entry_points={
         "console_scripts": [

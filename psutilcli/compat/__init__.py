@@ -6,9 +6,12 @@
 
 import os
 import sys
+from .shutil_get_terminal_size import get_terminal_size
+
 
 __all__ = ["PY3", "long", "xrange", "unicode", "basestring", "u", "b",
-           "callable", "lru_cache", "which"]
+           "callable", "which", "get_terminal_size"]
+
 
 PY3 = sys.version_info[0] == 3
 

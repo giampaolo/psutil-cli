@@ -26,6 +26,7 @@ from psutilcli import bytes2human
 from psutilcli import color_cmdline
 from psutilcli import exit
 from psutilcli import warn
+from psutilcli.compat import get_terminal_size
 
 
 def main():
@@ -57,7 +58,7 @@ def main():
                 procs.append(info)
 
     procs.sort(key=lambda p: p['mem'][sort])
-    templ = "%-7s %7s %7s %7s %7s %7s %7s"
+    templ = "%-7s %7s %7s %7s %7s %7s  %s"
     print(templ % (
         "PID",
         "User",
@@ -88,9 +89,13 @@ def main():
             pss,
             swap,
             rss,
-            color_cmdline(" ".join(p["cmdline"])[:30]),
+            ""
         )
+        size = get_terminal_size()[0] - len(line)
+        if size > 0:
+            line += color_cmdline(" ".join(p["cmdline"])[:size])
         print(line)
+
     if ad_pids:
         warn("access denied for %s pids which were skipped; "
              "try re-running as root" % (len(ad_pids)))
