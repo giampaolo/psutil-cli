@@ -5,7 +5,7 @@ import sys
 import os
 import warnings
 
-from psutilcli._compat import PY3
+from psutilcli.compat import PY3
 
 if sys.version_info < (2, 7):
     import unittest2 as unittest  # requires "pip install unittest2"
